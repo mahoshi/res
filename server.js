@@ -53,7 +53,7 @@ app.post('/createAC', (req,res) => {
         new_r['password'] = password;
         createAC(db,new_r,(result) => {
           client.close();
-          res.status(200).end('Create AC');
+          res.redirect(301, "/login");
       });
     });
   });
@@ -71,31 +71,31 @@ if(userNsession == undefined){res.render("login.ejs");}else{
       console.log(`res_name = ${res_name}`);
     }
     if (fields.borough) {
-      var borough = fields.borough;
+      var borough =  (fields.borough.length > 0) ? fields.borough : "null";
       console.log(`borough = ${borough}`);
     }
     if (fields.cuisine) {
-      var cuisine = fields.cuisine;
+      var cuisine = (fields.cuisine.length > 0) ? fields.cuisine : "null";
       console.log(`cuisine = ${cuisine}`);
     }
     if (fields.street) {
-      var street = fields.street;
+      var street = (fields.street.length > 0) ? fields.street : "null";
       console.log(`street = ${street}`);
     }
     if (fields.building) {
-      var building = fields.building;
+      var building = (fields.building.length > 0) ? fields.building : "null";
       console.log(`building = ${building}`);
     }
     if (fields.zipcode) {
-      var zipcode = fields.zipcode;
+      var zipcode = (fields.zipcode.length > 0) ? fields.zipcode : "null";
       console.log(`zipcode = ${zipcode}`);
     }
     if (fields.lon) {
-      var lon = fields.lon;
+      var lon = (fields.lon.length > 0) ? fields.lon : '0';
       console.log(`lon = ${lon}`);
     }
     if (fields.lat) {
-      var lat = fields.lat;
+      var lat = (fields.lat.length > 0) ? fields.lat : '0';
       console.log(`lat = ${lat}`);
     }
     if (files.filetoupload.type) {
@@ -263,10 +263,6 @@ if(userNsession == undefined){res.redirect(301, "/login");}else{
       var rate = fields.rate;
       console.log(`rate = ${rate}`);
     }
-   if (fields.owner) {
-      var owner = fields.owner;
-      console.log(`owner = ${owner}`);
-    }
 
   var client = new MongoClient(mongourl);
       client.connect((err) => {
@@ -284,14 +280,14 @@ if(userNsession == undefined){res.redirect(301, "/login");}else{
        if(result == null){
         insertRate(db,userNsession,new_r,new_r['_id'],(result) => {
           client.close();
-        console.log('Rate was inserted into MongoDB!');
+        console.log('Rated');
     var redirLink = "/display?_id="+new_r['_id'];
     res.redirect(301, redirLink);
            });
           }
         else{
              client.close();
-             console.log('ERROR with Rate insert into MongoDB!');
+             console.log('Rate error');
         var redirLink = "/display?_id="+new_r['_id'];
         res.redirect(301, redirLink);
            }
@@ -301,7 +297,7 @@ if(userNsession == undefined){res.redirect(301, "/login");}else{
 function insertRate(db,sessionuserid,r,id,callback) {
   db.collection('restaurant').updateOne({'_id':id},{$push:{Rate:{owner:sessionuserid,score:r.rate}}},function(err,result) {
     assert.equal(err,null);
-    console.log("insert was successful!");
+    console.log("Rated");
 callback(result);
     });
 
@@ -310,7 +306,7 @@ callback(result);
 function findOwner(db,sessionuserid,id,callback) {
   db.collection('restaurant').findOne({$and:[{_id:id},{Rate:{$elemMatch:{owner: sessionuserid}}}]},function(err,result) {
     assert.equal(err,null);
-    console.log("FIND OWNER successful!");
+    console.log("Rated before");
     console.log(result);
 callback(result);
     });
@@ -436,7 +432,7 @@ if(userNsession == undefined){res.render("login.ejs");}else{
     new_r[key] = find_value;
     console.log('Connected to MongoDB');
     const db = client.db(dbName);
-    findSQ(db,new_r,(rest) => {
+    findq(db,new_r,(rest) => {
       client.close();
       console.log('Disconnected MongoDB');
     res.render("list_res.ejs",{rest:rest});
@@ -444,9 +440,9 @@ if(userNsession == undefined){res.render("login.ejs");}else{
    });
  }
 });
-const findSQ = (db,criteria,callback) => {
+const findq = (db,criteria,callback) => {
   const cursor = db.collection("restaurant").find(criteria);
-  console.log("RN: "+criteria["res_name"]+" B: "+criteria["borough"]+" C: "+criteria["cusisine"]+" Owner: "+criteria["owner"]);
+  console.log("RestName: "+criteria["res_name"]+" Borough: "+criteria["borough"]+" Cuisine: "+criteria["cuisine"]+" Owner: "+criteria["owner"]);
   var rest = [];
   cursor.forEach((doc) => {
     rest.push(doc);
@@ -477,7 +473,7 @@ app.get('/display', (req,res) => {
       if (rest[0].mimetype.match(/^image/)) {
         res.render('restaurant_detail.ejs',{rest:rest});
       } else {
-        res.status(500).end("Not JPEG format!!!");  
+        res.render('restaurant_detail.ejs',{rest:rest});
       }
     });
   });
