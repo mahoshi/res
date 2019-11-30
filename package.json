@@ -2,8 +2,8 @@
 	"name": "rest",
 	"description": "rest",
 	"version": "1.0.0",
-    	"dependencies": {
-    	    "body-parser": "^1.19.0",
+	"dependencies": {
+		"body-parser": "^1.19.0",
 		"cookie-parser": "^1.4.0",
 		"cookie-session": "latest",
 		"ejs": "",
@@ -11,9 +11,9 @@
 		"express-session": "^1.17.0",
 		"formidable": "^1.2.1",
 		"mongodb": "^3.3.3"
-	    },
+	},
 	"engine": "node >= 0.10.0",
 	"scripts": {
-	"start": "node server"
-    }
+		"start": "node server"
+	}
 }
