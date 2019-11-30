@@ -332,9 +332,6 @@ app.post('/login', (req,res) => {
     if (fields.account.length == 0) {
       res.status(500).end("Account is needed");
     }
-    if (fields.password.length == 0) {
-      res.status(500).end("Password is needed");
-    }
       let client = new MongoClient(mongourl);
       client.connect((err) => {
         try {
