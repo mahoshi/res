@@ -560,7 +560,7 @@ if(userNsession == undefined){res.render("login.ejs");}else{
 });
 
 app.get('/', function(req,res) {
-  res.render('login.ejs');
+   res.redirect(301, "/login");
 });
 
 app.get('/createAC', function(req,res) {
