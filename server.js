@@ -559,7 +559,7 @@ if(userNsession == undefined){res.render("login.ejs");}else{
   }
 });
 
-app.get('', function(req,res) {
+app.get('/', function(req,res) {
   res.render('login.ejs');
 });
 
