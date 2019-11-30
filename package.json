@@ -6,7 +6,6 @@
                 "body-parser": "*",
 		"cookie-parser": "^1.4.4",
 		"cookie-seesion": "latest",
-		"cookie-session": "^1.3.3",
 		"ejs": "*",
 		"express": "*",
 		"formidable": "latest",
