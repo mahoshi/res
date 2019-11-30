@@ -1,5 +1,5 @@
 {
-	"name": "",
+	"name": "rest",
 	"description": "",
 	"version": "1.0.0",
 	"dependencies": {
@@ -14,5 +14,5 @@
 	"scripts": {
 		"start": "node server.js"
 	},
-	"engine": "*"
+	"engine": "node >=0.10.0"
 }
