@@ -278,15 +278,15 @@ if(userNsession == undefined){res.redirect(301, "/login");}else{
         insertRate(db,userNsession,new_r,new_r['_id'],(result) => {
           client.close();
         console.log('Rated');
-    var redirLink = "/display?_id="+new_r['_id'];
-    res.redirect(301, redirLink);
+    var li = "/display?_id="+new_r['_id'];
+    res.redirect(301, li);
            });
           }
         else{
              client.close();
              console.log('Rate error');
-        var redirLink = "/display?_id="+new_r['_id'];
-        res.redirect(301, redirLink);
+        var li = "/display?_id="+new_r['_id'];
+        res.redirect(301, li);
            }
       });
     });
