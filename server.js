@@ -421,7 +421,6 @@ if(userNsession == undefined){res.render("login.ejs");}else{
     }
     var new_r = {};
     key = req.query.key;
-    if(key == "name"){key = "res_name";}
     find_value = req.query.find_value; 
     new_r[key] = find_value;
     console.log('Connected to MongoDB');
@@ -436,7 +435,7 @@ if(userNsession == undefined){res.render("login.ejs");}else{
 });
 const findq = (db,criteria,callback) => {
   const cursor = db.collection("restaurant").find(criteria);
-  console.log("RestName: "+criteria["res_name"]+" Borough: "+criteria["borough"]+" Cuisine: "+criteria["cuisine"]+" Owner: "+criteria["owner"]);
+  console.log("RestaurantName: "+criteria["res_name"]+" Borough: "+criteria["borough"]+" Cuisine: "+criteria["cuisine"]+" Owner: "+criteria["owner"]);
   var rest = [];
   cursor.forEach((doc) => {
     rest.push(doc);
